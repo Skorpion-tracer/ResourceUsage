@@ -4,15 +4,30 @@ using UnityEngine;
 
 public class Root : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private PlayerModel _playerModel;
+    [SerializeField] private PlayerView _playerView;
+
+    private CameraController _cameraController;
+    private PlayerController _playerController;
+
+    private void Awake()
     {
-        
+        _cameraController = new CameraController(_playerView.transform, Camera.main.transform);
+        _playerController = new PlayerController(_playerModel, _playerView);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        _playerController.Execute();
+    }
+
+    private void FixedUpdate()
+    {
+        _playerController.FixedExecute();
+    }
+
+    private void LateUpdate()
+    {
+        _cameraController.LateExecute();
     }
 }
